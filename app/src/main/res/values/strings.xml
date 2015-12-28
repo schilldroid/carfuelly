@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="app_name">Carfuelly</string>
+
+    <string name="navi_drawer_open">Navigation öffnen</string>
+    <string name="navi_drawer_close">Navigation schließen</string>
+
+    <string-array name="navi_drawer_entries">
+        <item>Start</item>
+        <item>Autos</item>
+        <item>Ausgaben</item>
+        <item>Bericht</item>
+    </string-array>
+
+
+    <string name="nav_drawer_list_entry_home">Home</string>
+    <string name="nav_drawer_list_entry_cars">Cars</string>
+    <string name="nav_drawer_list_entry_fuelings">Fuelings</string>
+    <string name="nav_drawer_list_entry_misc">Misc</string>
+    <string name="nav_drawer_list_entry_combined">Combined</string>
+    <string name="nav_drawer_list_entry_list">List</string>
+    <string name="nav_drawer_list_entry_graphs">Graphs</string>
+    <string name="nav_drawer_list_entry_stations">Gas Stations</string>
+    <string name="nav_drawer_list_entry_types">Gas Types</string>
+    <string name="nav_drawer_list_subheader_expenses">Expenses</string>
+    <string name="nav_drawer_list_subheader_statistics">Statistics</string>
+    <string name="nav_drawer_list_subheader_data">Data</string>
+
+
+</resources>

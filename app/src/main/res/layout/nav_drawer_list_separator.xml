@@ -1,0 +1,16 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_drawer_list_item_linear_layout"
+    android:layout_height="@dimen/nav_drawer_list_item_height"
+    android:layout_width="match_parent"
+    android:orientation="horizontal" >
+
+    <View
+        android:layout_marginBottom="@dimen/nav_drawer_list_space_between_content_areas"
+        android:layout_marginTop="@dimen/nav_drawer_list_space_between_content_areas"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_drawer_list_item_separator_height"
+        android:background="@color/black"
+        android:alpha="0.1" />
+
+</LinearLayout>

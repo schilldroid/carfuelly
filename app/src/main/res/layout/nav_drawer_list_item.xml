@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_drawer_list_item_linear_layout"
+    android:layout_height="@dimen/nav_drawer_list_item_height"
+    android:paddingBottom="@dimen/nav_drawer_list_item_padding_vertical"
+    android:paddingTop="@dimen/nav_drawer_list_item_padding_vertical"
+    android:layout_width="match_parent"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/nav_drawer_list_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/global_horizontal_margin"
+        android:src="@drawable/ic_home_black_24dp"
+        android:alpha="0.54" />
+
+    <TextView
+        android:id="@+id/nav_drawer_list_item_dest"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/nav_drawer_list_item_text_margin_left"
+        android:gravity="center"
+        android:textSize="@dimen/nav_drawer_list_item_text_size"
+        android:textColor="@color/black"
+        android:alpha="0.87"
+        android:text="Navigation Item" />
+
+</LinearLayout>
