@@ -166,7 +166,7 @@ public class Carfuelly extends AppCompatActivity {
         BaseFragment fragment = mContentFragments.get(id);
 
         if(fragment == null) {
-            Log.d("[Carfuelly]", "No fragment for id = " + id);
+            Logger.log(Consts.Logger.LOG_ERROR, "[Carfuelly]", "No fragment found for id = " + id);
             return;
         }
 
@@ -176,7 +176,7 @@ public class Carfuelly extends AppCompatActivity {
 
         // update content view with selected fragment
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame_layout, fragment).commit();
 
 
         //mDrawerList.setItemChecked(position, true);

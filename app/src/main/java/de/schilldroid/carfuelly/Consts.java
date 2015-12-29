@@ -27,4 +27,12 @@ public final class Consts {
         public static final int ITEM_VIEW_TYPE_SEPARATOR = 1;
         public static final int ITEM_VIEW_TYPE_SUBHEADER = 2;
     }
+
+    public final class Logger {
+        public static final int LOG_DEBUG = 0;
+        public static final int LOG_INFO = 1;
+        public static final int LOG_WARNING = 2;
+        public static final int LOG_ERROR = 3;
+        public static final int LOG_CRITICAL = 4;
+    }
 }

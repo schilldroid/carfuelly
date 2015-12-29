@@ -25,5 +25,33 @@ public class Car {
 
     }
 
+    public Car(String name, String desc, String manufacturer, String model, Date year, int performance, double engine, String config, Date purchase, int price, String reg) {
+        this(-1, name, desc, manufacturer, model, year, performance, engine, config, purchase, price, reg);
+    }
+
+    public Car(int id, String name, String desc, String manufacturer, String model, Date year, int performance, double engine, String config, Date purchase, int price, String reg) {
+        mID = id;
+        mName = name;
+        mDescription = desc;
+        mManufacturer = manufacturer;
+        mModel = model;
+        mYear = year;
+        mPerformance = performance;
+        mEngine = engine;
+        mConfiguration = config;
+        mPurchaseDate = purchase;
+        mPrice = price;
+        mRegistration = reg;
+    }
+
+
+    public int getID() {
+        return mID;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
 
 }
