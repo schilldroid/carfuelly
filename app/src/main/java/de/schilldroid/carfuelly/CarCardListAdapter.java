@@ -84,7 +84,7 @@ public class CarCardListAdapter extends BaseAdapter {
         }
 
         // initialize components of view
-        TextView dest = (TextView) v.findViewById(R.id.car_card_text);
+        TextView dest = (TextView) v.findViewById(R.id.car_card_name);
         Car c = mCars.get(position);
         dest.setText(c.getName());
         return v;
