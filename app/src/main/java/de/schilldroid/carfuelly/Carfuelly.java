@@ -3,25 +3,27 @@ package de.schilldroid.carfuelly;
 import android.app.FragmentManager;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import java.util.HashMap;
 
-import de.schilldroid.carfuelly.Drawer.NavDrawerListAdapter;
 import de.schilldroid.carfuelly.Fragments.*;
+import de.schilldroid.carfuelly.Utils.Consts;
+import de.schilldroid.carfuelly.Utils.Logger;
 
-public class Carfuelly extends AppCompatActivity {
+public class Carfuelly extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // MEMBER VARIABLES
 
@@ -30,9 +32,9 @@ public class Carfuelly extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
+    private Toolbar mToolbar;
 
     private String mTitle;
-    private String mDrawerTitle;
 
     private FloatingActionButton mFab;
     private boolean mIsFabOpen = false;
@@ -44,10 +46,13 @@ public class Carfuelly extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carfuelly);
+        setContentView(R.layout.activity_carfuelly_test);
 
         // init static instance, to access main class from any point of code
         mMainActivity = this;
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         // initialize FAB
         mFab = (FloatingActionButton) findViewById(R.id.fab_add);
@@ -56,27 +61,28 @@ public class Carfuelly extends AppCompatActivity {
             public void onClick(View v) {
                 mFab.setSelected(!mFab.isSelected());
 
-                // initialize animation appropriate to its state
-                if (!mIsFabOpen) {
-                    Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_add_rotate_fwd);
-                    mFab.startAnimation(rotate);
-                    mIsFabOpen = true;
-                } else {
-                    Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_add_rotate_reverse);
-                    mFab.startAnimation(rotate);
-                    mIsFabOpen = false;
-                }
+                View clayout = findViewById(R.id.coordinator_layout_main);
+
+//                // initialize animation appropriate to its state
+//                if (!mIsFabOpen) {
+//                    Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_add_rotate_fwd);
+//                    mFab.startAnimation(rotate);
+//                    mIsFabOpen = true;
+//                } else {
+//                    Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_add_rotate_reverse);
+//                    mFab.startAnimation(rotate);
+//                    mIsFabOpen = false;
+//                }
+
+                Snackbar.make(clayout, "Carfuelly", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
         mTitle = getTitle().toString();
-        mDrawerTitle = "Navigation";
 
         initFragments();
         initNavigationDrawer();
         selectFragment(0);
-
-
     }
 
     private void initNavigationDrawer() {
@@ -84,10 +90,13 @@ public class Carfuelly extends AppCompatActivity {
 
         mDrawerList = (ListView) findViewById(R.id.navi_drawer_list);
 
+        /*
         // to show the navigation drawer icon on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        */
 
+        /*
         // initialize navigation drawer button
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navi_drawer_open, R.string.navi_drawer_close) {
             public void onDrawerClosed(View view) {
@@ -100,7 +109,7 @@ public class Carfuelly extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
 
-            /** Called when a drawer has settled in a completely open state. */
+            // Called when a drawer has settled in a completely open state.
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 // update action bar title
@@ -109,34 +118,42 @@ public class Carfuelly extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         };
+        */
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navi_drawer_open, R.string.navi_drawer_close);
         // register navigation drawer button as drawer listener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // initialize drawer list
-        NavDrawerListAdapter navDrawerAdapter = new NavDrawerListAdapter(this);
-        mDrawerList.setAdapter(navDrawerAdapter);
-        mDrawerList.setOnItemClickListener(navDrawerAdapter);
+        //NavDrawerListAdapter navDrawerAdapter = new NavDrawerListAdapter(this);
+        //mDrawerList.setAdapter(navDrawerAdapter);
+        //mDrawerList.setOnItemClickListener(navDrawerAdapter);
     }
 
 
     private void initFragments() {
         mContentFragments = new HashMap<>();
 
-        mContentFragments.put(Consts.NavDrawer.ID_HOME_FRAGMENT, new HomeFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_CARS_FRAGMENT, new CarsFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_FUELINGS_FRAGMENT, new FuelingsFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_MISC_FRAGMENT, new DummyFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_COMBINED_FRAGMENT, new DummyFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_LIST_FRAGMENT, new DummyFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_GRAPHS_FRAGMENT, new DummyFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_STATIONS_FRAGMENT, new DummyFragment());
-        mContentFragments.put(Consts.NavDrawer.ID_TYPES_FRAGMENT, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_home, new HomeFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_cars, new CarsFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_fuelings, new FuelingsFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_misc, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_combined, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_list, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_Graphs, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_stations, new DummyFragment());
+        mContentFragments.put(R.id.nav_drawer_menu_types, new DummyFragment());
 
     }
 
 
 
 
+    /*
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // to initiate animation of the navigation drawer icon
@@ -156,17 +173,33 @@ public class Carfuelly extends AppCompatActivity {
         // Handle your other action bar items...
         return super.onOptionsItemSelected(item);
     }
+    */
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
 
-
-    public void selectFragment(int id) {
+    public void selectFragment(int fragmentId) {
         // shows the appropriate fragment in content container
 
         String fragmentName;
-        BaseFragment fragment = mContentFragments.get(id);
+        BaseFragment fragment = mContentFragments.get(fragmentId);
 
         if(fragment == null) {
-            Logger.log(Consts.Logger.LOG_ERROR, "[Carfuelly]", "No fragment found for id = " + id);
+            Logger.log(Consts.Logger.LOG_ERROR, "[Carfuelly]", "No fragment found for id = " + fragmentId);
             return;
         }
 
@@ -185,13 +218,22 @@ public class Carfuelly extends AppCompatActivity {
         // apply title to action bar
         //etSupportActionBar().setTitle(mTitle);
         // close drawer
-        mDrawerLayout.closeDrawer(mDrawerList);
+        //mDrawerLayout.closeDrawer(mDrawerList);
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
+        Logger.log(Consts.Logger.LOG_ERROR, "[Carfuelly]", "navigation item with id " + id + " chosen");
 
+        selectFragment(id);
 
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
 
     public static Carfuelly getMainActivity() {

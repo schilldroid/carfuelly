@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_drawer_menu_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_drawer_menu_cars"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Cars" />
+    </group>
+
+    <item android:title="Expenses">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_drawer_menu_fuelings"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Fuelings" />
+                <item
+                    android:id="@+id/nav_drawer_menu_misc"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Misc" />
+                <item
+                    android:id="@+id/nav_drawer_menu_combined"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Combined" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Statistics">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_drawer_menu_list"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="List" />
+                <item
+                    android:id="@+id/nav_drawer_menu_Graphs"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Graphs" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Data">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_drawer_menu_stations"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Gas Stations" />
+                <item
+                    android:id="@+id/nav_drawer_menu_types"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="Gas Types" />
+            </group>
+        </menu>
+    </item>
+
+
+
+</menu>

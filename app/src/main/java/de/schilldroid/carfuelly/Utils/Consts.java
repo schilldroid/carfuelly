@@ -1,4 +1,4 @@
-package de.schilldroid.carfuelly;
+package de.schilldroid.carfuelly.Utils;
 
 /**
  * Created by Simon on 23.12.2015.

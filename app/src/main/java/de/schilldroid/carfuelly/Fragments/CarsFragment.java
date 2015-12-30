@@ -2,6 +2,8 @@ package de.schilldroid.carfuelly.Fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +23,9 @@ import de.schilldroid.carfuelly.R;
 public class CarsFragment extends BaseFragment {
 
 
-    private Carfuelly mAppContext;
-
-
     public CarsFragment() {
         // Empty constructor required for fragment subclasses
         mTitle = "Cars";
-        mAppContext = Carfuelly.getMainActivity();
     }
 
     @Override
@@ -44,6 +42,15 @@ public class CarsFragment extends BaseFragment {
 
         // apply list adapter
         carListView.setAdapter(carListAdapter);
+
+        FloatingActionButton fab = mAppContext.getFab();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View clayout = mAppContext.findViewById(R.id.coordinator_layout_main);
+                Snackbar.make(clayout, "Cars", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
 
 
         return rootView;

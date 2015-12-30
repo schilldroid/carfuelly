@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import de.schilldroid.carfuelly.Utils.Consts;
+import de.schilldroid.carfuelly.Utils.Logger;
+
 /**
  * Created by Simon on 29.12.2015.
  */
@@ -45,7 +48,7 @@ public class CarCardListAdapter extends BaseAdapter {
     public Object getItem(int position) {
 
         if(position >= 0 && position < mCars.size()) {
-            Logger.log(Consts.Logger.LOG_INFO, "[CarCardListAdapter]", "requested car at position "+ position);
+            Logger.log(Consts.Logger.LOG_INFO, "[CarCardListAdapter]", "requested car at position " + position);
             return mCars.get(position);
         }
         else {

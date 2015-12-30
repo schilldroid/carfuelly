@@ -1,4 +1,4 @@
-package de.schilldroid.carfuelly;
+package de.schilldroid.carfuelly.Utils;
 
 import android.util.Log;
 
