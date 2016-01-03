@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class DataManager {
 
     private HashMap<Integer, Car> mCars;
+    private ArrayList<FuelType> mFuelTypes;
 
     private static DataManager mInstance = null;
 
@@ -49,4 +50,8 @@ public class DataManager {
     public ArrayList<Car> getCars() {
         return new ArrayList<Car>(mCars.values());
     }
+
+
+
+
 }

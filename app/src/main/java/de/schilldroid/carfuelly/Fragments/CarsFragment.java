@@ -1,7 +1,7 @@
 package de.schilldroid.carfuelly.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -9,12 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import de.schilldroid.carfuelly.Car;
+import de.schilldroid.carfuelly.Activities.CarDetailsActivity;
 import de.schilldroid.carfuelly.CarCardListAdapter;
-import de.schilldroid.carfuelly.Carfuelly;
-import de.schilldroid.carfuelly.DataManager;
 import de.schilldroid.carfuelly.R;
 
 /**
@@ -49,6 +45,8 @@ public class CarsFragment extends BaseFragment {
             public void onClick(View v) {
                 View clayout = mAppContext.findViewById(R.id.coordinator_layout_main);
                 Snackbar.make(clayout, "Cars", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Intent intent = new Intent(mAppContext, CarDetailsActivity.class);
+                startActivity(intent);
             }
         });
 

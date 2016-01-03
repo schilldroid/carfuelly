@@ -35,4 +35,10 @@ public final class Consts {
         public static final int LOG_ERROR = 3;
         public static final int LOG_CRITICAL = 4;
     }
+
+    public final class CarDetails {
+        public static final String DATE_PICKER_CONTEXT = "context";
+        public static final int DATE_PICKER_CONTEXT_FIRST_REGISTRATION = 0;
+        public static final int DATE_PICKER_CONTEXT_PURCHASE_DATE = 1;
+    }
 }

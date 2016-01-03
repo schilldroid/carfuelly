@@ -13,6 +13,7 @@
     </string-array>
 
 
+    // navigation drawer
     <string name="nav_drawer_list_entry_home">Home</string>
     <string name="nav_drawer_list_entry_cars">Cars</string>
     <string name="nav_drawer_list_entry_fuelings">Fuelings</string>
@@ -26,5 +27,20 @@
     <string name="nav_drawer_list_subheader_statistics">Statistics</string>
     <string name="nav_drawer_list_subheader_data">Data</string>
 
+    // car details
+    <string name="car_details_hint_name">name</string>
+    <string name="car_details_hint_description">description</string>
+    <string name="car_details_hint_manufacturer">manufacturer</string>
+    <string name="car_details_hint_model">model</string>
+    <string name="car_details_hint_first_registration">1st reg.</string>
+    <string name="car_details_hint_power">power</string>
+    <string name="car_details_hint_capacity">capacity</string>
+    <string name="car_details_hint_configuration">configuration line</string>
+    <string name="car_details_hint_purchase_date">purchase date</string>
+    <string name="car_details_hint_price">price</string>
+    <string name="car_details_hint_number_plate">number plate</string>
+    <string name="car_details_hint_consumption_urban">urban</string>
+    <string name="car_details_hint_consumption_extraurban">extraurban</string>
+    <string name="car_details_hint_consumption_combined">combined</string>
 
 </resources>

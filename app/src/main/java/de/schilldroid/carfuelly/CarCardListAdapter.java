@@ -25,7 +25,7 @@ public class CarCardListAdapter extends BaseAdapter {
 
 
     public CarCardListAdapter(AppCompatActivity a) {
-        mAppContext = (Carfuelly) a;
+        mAppContext = Carfuelly.getMainActivity();
         initCarList();
 
         // obtain layout inflater instance
@@ -72,14 +72,7 @@ public class CarCardListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-
-        view = initializeEntry(view, position);
-
-        return view;
-    }
-
-    public View initializeEntry(View v, int position) {
+        View v = convertView;
 
         // if no view is present, create a new
         if(v == null) {
@@ -90,7 +83,9 @@ public class CarCardListAdapter extends BaseAdapter {
         TextView dest = (TextView) v.findViewById(R.id.car_card_name);
         Car c = mCars.get(position);
         dest.setText(c.getName());
+
         return v;
     }
+
 }
 
