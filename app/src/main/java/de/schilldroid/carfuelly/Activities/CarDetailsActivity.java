@@ -44,6 +44,7 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_details);
 
+        // add date picker
         mViewFirstRegistration = (EditText) findViewById(R.id.car_details_first_registration);
         mViewFirstRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +67,13 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 datePicker.show(getSupportFragmentManager(), "datePicker");
             }
         });
+
+        // init listview
         mViewTankList = (ListView) findViewById(R.id.car_details_tank_list);
         mTankListAdapter = new CarDetailTankListAdapter(this);
         mViewTankList.setAdapter(mTankListAdapter);
 
-
-
+        // implement add tank button
         mViewAddTank = (ImageView) findViewById(R.id.car_details_tank_add);
         mViewAddTank.setOnClickListener(new View.OnClickListener() {
             @Override
