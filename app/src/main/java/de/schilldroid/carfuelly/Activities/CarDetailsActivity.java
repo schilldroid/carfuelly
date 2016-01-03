@@ -3,12 +3,10 @@ package de.schilldroid.carfuelly.Activities;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
@@ -17,7 +15,6 @@ import java.util.Calendar;
 import de.schilldroid.carfuelly.Car;
 import de.schilldroid.carfuelly.CarDetailTankListAdapter;
 import de.schilldroid.carfuelly.CarDetailsDatePickerFragment;
-import de.schilldroid.carfuelly.Carfuelly;
 import de.schilldroid.carfuelly.R;
 import de.schilldroid.carfuelly.Utils.Consts;
 
@@ -42,7 +39,7 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.car_details);
+        setContentView(R.layout.activity_car_details);
 
         // add date picker
         mViewFirstRegistration = (EditText) findViewById(R.id.car_details_first_registration);
