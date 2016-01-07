@@ -40,5 +40,14 @@ public final class Consts {
         public static final String DATE_PICKER_CONTEXT = "context";
         public static final int DATE_PICKER_CONTEXT_FIRST_REGISTRATION = 0;
         public static final int DATE_PICKER_CONTEXT_PURCHASE_DATE = 1;
+
+        public static final String PARAM_CAR_ID = "CAR_ID";
+        public static final String CONTEXT_KEY = "CONTEXT";
+        public static final int CONTEXT_CREATE = 0;
+        public static final int CONTEXT_MODIFY = 1;
+
+        public static final int REQUEST_CAR_DETAILS = 0;
+        public static final int CAR_DETAILS_OK = 0;
+        public static final int CAR_DETAILS_CANCELED = 1;
     }
 }

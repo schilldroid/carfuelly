@@ -10,24 +10,61 @@ import java.util.HashMap;
  */
 public class DataManager {
 
+    // just for testing purposes
+    private int ID_COUNT;
+
     private HashMap<Integer, Car> mCars;
     private ArrayList<FuelType> mFuelTypes;
 
     private static DataManager mInstance = null;
 
     private DataManager() {
+        initCars();
+    }
+
+
+    public void initCars() {
+
+        ID_COUNT = 0;
         mCars = new HashMap<>();
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2010);
+        Date date, purchase;
+
+        cal.set(Calendar.YEAR, 2013);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date = cal.getTime();
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.OCTOBER);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+        purchase = cal.getTime();
+        Car c = new Car(ID_COUNT++, "S 2007", "mein Privatwagen", "Opel", "Corsa D", date, 90, 1.4, "standard line", purchase, 8500, "GEL S 2007", 6.5, 5.5, 6.0);
+        mCars.put(c.getID(), c);
+
+        cal.set(Calendar.YEAR, 2007);
         cal.set(Calendar.MONTH, Calendar.JULY);
-        Date date = cal.getTime();
-        cal.set(Calendar.YEAR, 2011);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date = cal.getTime();
+        cal.set(Calendar.YEAR, 2013);
         cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        Date purchase = cal.getTime();
-        for(int i = 0; i < 10; i++) {
-            mCars.put(i, new Car(i, "Car " + i, "blabla", "Porsche", "Panamera", date, 234, 2.5, "ultra super comfort line", purchase, 11123456, "POR S 1234"));
-        }
+        cal.set(Calendar.DAY_OF_MONTH, 23);
+        purchase = cal.getTime();
+        c = new Car(ID_COUNT++, "F 2889", "Franzis Auto", "Seat", "Leon", date, 106, 1.8, "Sportaustattung", purchase, 7000, "KLE F 2889", 8.0, 7.0, 7.5);
+        mCars.put(c.getID(), c);
+
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date = cal.getTime();
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+        purchase = cal.getTime();
+        c = new Car(ID_COUNT++, "Traum", "mein Traumwagen", "Porsche", "Panamera", date, 310, 2.4, "super ultra comfort sports line", purchase, 100000, "POR SCHE 123", 12.0, 10.0, 11.0);
+        mCars.put(c.getID(), c);
+
     }
+
 
     public static DataManager getInstance() {
         if(mInstance == null)
@@ -36,7 +73,8 @@ public class DataManager {
     }
 
     public void addCar(Car c) {
-        mCars.put(-1, c);
+        c.setID(ID_COUNT++);
+        mCars.put(c.getID(), c);
     }
 
     public Car getCarByID(int id) {

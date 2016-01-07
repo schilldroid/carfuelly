@@ -1,280 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout_car_details"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:fitsSystemWindows="true"
+    tools:context="de.schilldroid.carfuelly.Activities.CarDetailsActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- the first card -->
-        <android.support.v7.widget.CardView
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/car_details_card_margin"
-            card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
+        <include layout="@layout/toolbar" />
 
-            <!-- dummy element to prevent name field from receiving focus at activity startup -->
+
+        <ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
             <LinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_width="0px"
-                android:layout_height="0px"/>
-
-            <!-- name and description -->
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
+
+
+                <!-- the first card -->
+                <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <!-- to prevent dummy element from receiving focus again, nextFocusUp and nextFocusLeft is set to this element -->
-                    <EditText
-                        android:id="@+id/car_details_name"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/car_details_card_margin"
+                    card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
+
+                    <!-- dummy element to prevent name field from receiving focus at activity startup -->
+                    <LinearLayout
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:layout_width="0px"
+                        android:layout_height="0px"/>
+
+                    <!-- name and description -->
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <!-- to prevent dummy element from receiving focus again, nextFocusUp and nextFocusLeft is set to this element -->
+                            <EditText
+                                android:id="@+id/car_details_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/car_details_hint_name"
+                                android:nextFocusUp="@id/car_details_name"
+                                android:nextFocusLeft="@id/car_details_name" />
+                        </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/car_details_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/car_details_hint_description"/>
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+                <!-- the second card -->
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/car_details_card_margin"
+                    card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/car_details_hint_name"
-                        android:nextFocusUp="@id/car_details_name"
-                        android:nextFocusLeft="@id/car_details_name" />
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
+                        android:orientation="vertical">
+
+                        <!-- manufacturer and model -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_manufacturer"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/car_details_hint_manufacturer"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_model"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/car_details_hint_model"/>
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- first registration, performance and engine -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_first_registration"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:cursorVisible="false"
+                                    android:inputType="date"
+                                    android:hint="@string/car_details_hint_first_registration"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_power"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:hint="@string/car_details_hint_power"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_engine"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:hint="@string/car_details_hint_capacity"/>
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- configuration -->
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <EditText
+                                android:id="@+id/car_details_configuration"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:hint="@string/car_details_hint_configuration"/>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <!-- purchase date and price -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_purchase_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:cursorVisible="false"
+                                    android:inputType="date"
+                                    android:hint="@string/car_details_hint_purchase_date"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:hint="@string/car_details_hint_price"/>
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- license plate -->
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <EditText
+                                android:id="@+id/car_details_license_plate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:hint="@string/car_details_hint_license_plate"/>
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <!-- consumption -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_consumption_urban"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:hint="@string/car_details_hint_consumption_urban"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_consumption_extraurban"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:hint="@string/car_details_hint_consumption_extraurban"/>
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+                                <EditText
+                                    android:id="@+id/car_details_consumption_combined"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:hint="@string/car_details_hint_consumption_combined"/>
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <!-- the third card -->
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/car_details_tank_list_card"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/car_details_description"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/car_details_card_margin"
+                    card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/car_details_hint_description"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/car_details_tank_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_black_48dp"/>
+
+                        <!-- list of tanks -->
+                        <ListView
+                            android:id="@+id/car_details_tank_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </ListView>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-
-
-
-
-
-
-        <!-- the second card -->
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/car_details_card_margin"
-            card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- manufacturer and model -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_manufacturer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/car_details_hint_manufacturer"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_model"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/car_details_hint_model"/>
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <!-- first registration, performance and engine -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_first_registration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:cursorVisible="false"
-                            android:inputType="date"
-                            android:hint="@string/car_details_hint_first_registration"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_power"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:hint="@string/car_details_hint_power"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_capacity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:hint="@string/car_details_hint_capacity"/>
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <!-- configuration -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <EditText
-                        android:id="@+id/car_details_configuration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="@string/car_details_hint_configuration"/>
-                </android.support.design.widget.TextInputLayout>
-
-                <!-- purchase date and price -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_purchase_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:cursorVisible="false"
-                            android:inputType="date"
-                            android:hint="@string/car_details_hint_purchase_date"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:hint="@string/car_details_hint_price"/>
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <!-- registration -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <EditText
-                        android:id="@+id/car_details_number_plate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="@string/car_details_hint_number_plate"/>
-                </android.support.design.widget.TextInputLayout>
-
-
-                <!-- consumption -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_consumption_urban"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:hint="@string/car_details_hint_consumption_urban"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_consumption_extraurban"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:hint="@string/car_details_hint_consumption_extraurban"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/car_details_consumption_combined"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:hint="@string/car_details_hint_consumption_combined"/>
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <!-- the third card -->
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/car_details_tank_list_card"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/car_details_card_margin"
-            card_view:cardCornerRadius="@dimen/car_details_card_corner_radius">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/car_details_tank_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_black_48dp"/>
-
-                <!-- list of tanks -->
-                <ListView
-                    android:id="@+id/car_details_tank_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </ListView>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+        </ScrollView>
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -9,8 +9,10 @@
         android:layout_gravity="start"
         android:divider="@android:color/transparent"
         android:dividerHeight="@dimen/cars_card_list_divider_height"
-        android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:headerDividersEnabled="true"
         android:footerDividersEnabled="true"/>
+        <!--android:choiceMode="singleChoice"
+        android:drawSelectorOnTop="true"
+        android:listSelector="@android:color/holo_blue_light"/>-->
 </LinearLayout>

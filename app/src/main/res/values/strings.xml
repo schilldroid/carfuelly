@@ -38,7 +38,7 @@
     <string name="car_details_hint_configuration">configuration line</string>
     <string name="car_details_hint_purchase_date">purchase date</string>
     <string name="car_details_hint_price">price</string>
-    <string name="car_details_hint_number_plate">number plate</string>
+    <string name="car_details_hint_license_plate">license plate</string>
     <string name="car_details_hint_consumption_urban">urban</string>
     <string name="car_details_hint_consumption_extraurban">extraurban</string>
     <string name="car_details_hint_consumption_combined">combined</string>

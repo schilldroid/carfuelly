@@ -9,15 +9,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Carfuelly"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.CarDetailsActivity" android:label="Car Details" />
+        <activity android:name=".Activities.CarDetailsActivity"
+            android:label="Car Details" />
 
     </application>
 
