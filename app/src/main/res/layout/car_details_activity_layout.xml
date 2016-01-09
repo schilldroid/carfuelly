@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator_layout_car_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+    <include layout="@layout/car_details_toolbar_layout" />
+
+    <include layout="@layout/car_details_scrollable_form_layout" />
+
+    <include layout="@layout/car_details_fab_layout" />
+
+
+</android.support.design.widget.CoordinatorLayout>

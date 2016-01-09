@@ -1,9 +1,17 @@
 package de.schilldroid.carfuelly.Utils;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Simon on 23.12.2015.
  */
 public final class Consts {
+
+    public static class General {
+        public static final String EXTERNAL_STORAGE_DIRECTORY_NAME = "carfuelly";
+        public static final String IMAGES_DIRECTORY_NAME = "images";
+    }
+
 
     public final class NavDrawer {
         public static final int TOTAL_NUMBER_OF_ENTRIES = 15;
@@ -49,5 +57,8 @@ public final class Consts {
         public static final int REQUEST_CAR_DETAILS = 0;
         public static final int CAR_DETAILS_OK = 0;
         public static final int CAR_DETAILS_CANCELED = 1;
+
+        public static final int REQUEST_PICK_IMAGE = 0;
     }
+
 }

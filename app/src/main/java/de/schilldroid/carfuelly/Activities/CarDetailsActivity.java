@@ -1,12 +1,19 @@
 package de.schilldroid.carfuelly.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,10 +23,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 import de.schilldroid.carfuelly.Car;
 import de.schilldroid.carfuelly.CarDetailTankListAdapter;
@@ -28,15 +34,14 @@ import de.schilldroid.carfuelly.DataManager;
 import de.schilldroid.carfuelly.R;
 import de.schilldroid.carfuelly.Utils.Consts;
 import de.schilldroid.carfuelly.Utils.Logger;
+import de.schilldroid.carfuelly.Utils.Tools;
 
 /**
  * Created by Simon on 30.12.2015.
  */
 public class CarDetailsActivity extends AppCompatActivity implements CarDetailsDatePickerFragment.OnDateAppliedListener {
 
-
-    private SimpleDateFormat mDateFormatFirstRegistration;
-    private SimpleDateFormat mDateFormatPurchase;
+    private String mClassName = "[CarDetailsActivity]";
 
     private EditText mViewName;
     private EditText mViewDescription;
@@ -52,9 +57,13 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     private EditText mViewConsumptionUrban;
     private EditText mViewConsumptionExtraUrban;
     private EditText mViewConsumptionCombined;
+
     private ListView mViewTankList;
     private CarDetailTankListAdapter mTankListAdapter;
     private ImageView mViewAddTank;
+    private ImageView mToolbarImage;
+    private FloatingActionButton mFAB;
+
 
     private int mContext;
 
@@ -68,20 +77,16 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_details);
+        setContentView(R.layout.car_details_activity_layout);
 
         initComponents();
-
-        mDateFormatFirstRegistration = new SimpleDateFormat("MM.yyyy");
-        mDateFormatPurchase = new SimpleDateFormat("dd.MM.yyyy");
-
 
         Intent intent = getIntent();
         mContext = intent.getIntExtra(Consts.CarDetails.CONTEXT_KEY, Consts.CarDetails.CONTEXT_CREATE);
         switch(mContext) {
             case Consts.CarDetails.CONTEXT_CREATE:
                 mTitle = "Add Car";
-                mCar = new Car();
+                mCar = DataManager.getInstance().createNewCar();
                 break;
             case Consts.CarDetails.CONTEXT_MODIFY:
                 mTitle = "Modify Car";
@@ -92,14 +97,32 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 }
                 else {
                     Logger.log(Consts.Logger.LOG_ERROR, "[CarDetailsActivity]", "unable to load car details for ID = -1");
-                    mCar = new Car();
+                    mCar = DataManager.getInstance().createNewCar();
                 }
                 break;
             default:
                 mTitle = "Car Details";
                 break;
         }
+    }
 
+
+    public void initComponents() {
+        // initialize components
+        mViewName = (EditText) findViewById(R.id.car_details_name);
+        mViewDescription = (EditText) findViewById(R.id.car_details_description);
+        mViewManufacturer = (EditText) findViewById(R.id.car_details_manufacturer);
+        mViewModel = (EditText) findViewById(R.id.car_details_model);
+        mViewFirstRegistration = (EditText) findViewById(R.id.car_details_first_registration);
+        mViewPower = (EditText) findViewById(R.id.car_details_power);
+        mViewEngine = (EditText) findViewById(R.id.car_details_engine);
+        mViewConfiguration = (EditText) findViewById(R.id.car_details_configuration);
+        mViewPurchaseDate = (EditText) findViewById(R.id.car_details_purchase_date);
+        mViewPrice = (EditText) findViewById(R.id.car_details_price);
+        mViewLicensePlate = (EditText) findViewById(R.id.car_details_license_plate);
+        mViewConsumptionUrban = (EditText) findViewById(R.id.car_details_consumption_urban);
+        mViewConsumptionExtraUrban = (EditText) findViewById(R.id.car_details_consumption_extraurban);
+        mViewConsumptionCombined = (EditText) findViewById(R.id.car_details_consumption_combined);
 
         // add date picker
         mViewFirstRegistration.setOnClickListener(new View.OnClickListener() {
@@ -138,32 +161,30 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         });
 
         // setup toolbar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.car_details_toolbar);
         mToolbar.setTitle(mTitle);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        mFAB = (FloatingActionButton) findViewById(R.id.car_details_fab);
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Choose image"), Consts.CarDetails.REQUEST_PICK_IMAGE);
+            }
+        });
+
+        mToolbarImage = (ImageView) findViewById(R.id.car_details_toolbar_image);
+
     }
 
 
-    public void initComponents() {
-        // initialize components
-        mViewName = (EditText) findViewById(R.id.car_details_name);
-        mViewDescription = (EditText) findViewById(R.id.car_details_description);
-        mViewManufacturer = (EditText) findViewById(R.id.car_details_manufacturer);
-        mViewModel = (EditText) findViewById(R.id.car_details_model);
-        mViewFirstRegistration = (EditText) findViewById(R.id.car_details_first_registration);
-        mViewPower = (EditText) findViewById(R.id.car_details_power);
-        mViewEngine = (EditText) findViewById(R.id.car_details_engine);
-        mViewConfiguration = (EditText) findViewById(R.id.car_details_configuration);
-        mViewPurchaseDate = (EditText) findViewById(R.id.car_details_purchase_date);
-        mViewPrice = (EditText) findViewById(R.id.car_details_price);
-        mViewLicensePlate = (EditText) findViewById(R.id.car_details_license_plate);
-        mViewConsumptionUrban = (EditText) findViewById(R.id.car_details_consumption_urban);
-        mViewConsumptionExtraUrban = (EditText) findViewById(R.id.car_details_consumption_extraurban);
-        mViewConsumptionCombined = (EditText) findViewById(R.id.car_details_consumption_combined);
-    }
 
 
 
@@ -173,17 +194,32 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         mViewDescription.setText(mCar.getDescription());
         mViewManufacturer.setText(mCar.getManufacturer());
         mViewModel.setText(mCar.getModel());
-        mViewFirstRegistration.setText(mDateFormatFirstRegistration.format(mCar.getFirstRegistration()));
-        mViewPower.setText(""+mCar.getPower());
-        mViewEngine.setText(""+mCar.getEngine());
+        mViewFirstRegistration.setText(mCar.getStrFirstRegistration());
+        mViewPower.setText(mCar.getStrPower());
+        mViewEngine.setText(mCar.getStrEngine());
         mViewConfiguration.setText(mCar.getConfiguration());
-        mViewPurchaseDate.setText(mDateFormatPurchase.format(mCar.getPurchaseDate()));
-        mViewPrice.setText(""+ mCar.getPrice());
+        mViewPurchaseDate.setText(mCar.getStrPurchaseDate());
+        mViewPrice.setText(mCar.getStrPrice());
         mViewLicensePlate.setText(mCar.getLicensePlate());
-        mViewConsumptionUrban.setText(""+mCar.getConsumptionUrban());
-        mViewConsumptionExtraUrban.setText(""+ mCar.getConsumptionExtraUrban());
-        mViewConsumptionCombined.setText(""+ mCar.getConsumptionCombined());
+        mViewConsumptionUrban.setText(mCar.getStrConsumptionUrban());
+        mViewConsumptionExtraUrban.setText(mCar.getStrConsumptionExtraUrban());
+        mViewConsumptionCombined.setText(mCar.getStrConsumptionCombined());
+        updateImage();
     }
+
+
+    private void updateImage() {
+        File src = null;
+        try {
+            // build file path
+            src = new File(Tools.getExternalStorageImagesDirectory(), mCar.getImageFilename());
+        } catch (Exception e) {
+            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "exception while trying to open car image file");
+        }
+        Tools.updateImage(mToolbarImage, src);
+    }
+
+
 
 
 
@@ -221,10 +257,10 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         c.set(year, month, day);
 
         if(context == Consts.CarDetails.DATE_PICKER_CONTEXT_FIRST_REGISTRATION) {
-            mViewFirstRegistration.setText(mDateFormatFirstRegistration.format(c.getTime()));
+            mViewFirstRegistration.setText(Car.getDateFormatFirstRegistration().format(c.getTime()));
         }
         else if(context == Consts.CarDetails.DATE_PICKER_CONTEXT_PURCHASE_DATE) {
-            mViewPurchaseDate.setText(mDateFormatPurchase.format(c.getTime()));
+            mViewPurchaseDate.setText(Car.getDateFormatPurchase().format(c.getTime()));
         }
     }
 
@@ -245,10 +281,7 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 boolean dataVerified = checkData();
                 if(dataVerified == true) {
                     applyData();
-                    if(mContext == Consts.CarDetails.CONTEXT_CREATE) {
-                        DataManager.getInstance().addCar(mCar);
-                    }
-                    Snackbar.make(clayout, "Car succesfully added!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(clayout, "Car succesfully modified/created!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     setResult(Consts.CarDetails.CAR_DETAILS_OK);
                     finish();
                 }
@@ -257,6 +290,7 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 }
                 return dataVerified;
             case android.R.id.home:
+                DataManager.getInstance().deleteCar(mCar.getID());
                 setResult(Consts.CarDetails.CAR_DETAILS_CANCELED);
                 finish();
                 return true;
@@ -281,30 +315,49 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
 
     private boolean applyData() {
 
-        try {
-            // parse field values
-            String name = mViewName.getText().toString();
-            String desc = mViewDescription.getText().toString();
-            String manu = mViewManufacturer.getText().toString();
-            String model = mViewModel.getText().toString();
-            Date firstReg = (new SimpleDateFormat("MM.yyyy")).parse(mViewFirstRegistration.getText().toString());
-            int power = Integer.parseInt(mViewPower.getText().toString());
-            double engine = Double.parseDouble(mViewEngine.getText().toString());
-            String config = mViewConfiguration.getText().toString();
-            Date purchaseDate = (new SimpleDateFormat("dd.MM.yyyy")).parse(mViewPurchaseDate.getText().toString());
-            int price = Integer.parseInt(mViewPrice.getText().toString());
-            String plate = mViewLicensePlate.getText().toString();
-            double conUrban = Double.parseDouble(mViewConsumptionUrban.getText().toString());
-            double conExtraUrban = Double.parseDouble(mViewConsumptionExtraUrban.getText().toString());
-            double conCombined = Double.parseDouble(mViewConsumptionCombined.getText().toString());
+        // get field values
+        String name = mViewName.getText().toString();
+        String desc = mViewDescription.getText().toString();
+        String manu = mViewManufacturer.getText().toString();
+        String model = mViewModel.getText().toString();
+        String firstReg = mViewFirstRegistration.getText().toString();
+        String power = mViewPower.getText().toString();
+        String engine = mViewEngine.getText().toString();
+        String config = mViewConfiguration.getText().toString();
+        String purchaseDate = mViewPurchaseDate.getText().toString();
+        String price = mViewPrice.getText().toString();
+        String plate = mViewLicensePlate.getText().toString();
+        String conUrban = mViewConsumptionUrban.getText().toString();
+        String conExtraUrban = mViewConsumptionExtraUrban.getText().toString();
+        String conCombined = mViewConsumptionCombined.getText().toString();
 
-            // set parameter of car
-            mCar.setParams(name, desc, manu, model, firstReg, power, engine, config, purchaseDate, price, plate, conUrban, conExtraUrban, conCombined);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        // hey car, i have some data for you. The thing is that the data are given as Strings, but im sure you can handle that ;)
+        mCar.setParams(name, desc, manu, model, firstReg, power, engine, config, purchaseDate, price, plate, conUrban, conExtraUrban, conCombined);
 
         return true;
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Consts.CarDetails.REQUEST_PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+            Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "data received from gallery picker: "+ uri);
+            String filename = "car_"+ mCar.getID();
+            File destFile = new File(Tools.getExternalStorageImagesDirectory(), filename);
+            Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "the destination filepath is: " + destFile.getAbsolutePath());
+
+            try {
+                Tools.copyFileFromUri(this, uri, destFile);
+            } catch (IOException e) {
+                Logger.log(Consts.Logger.LOG_ERROR, mClassName, "could not copy image to app-folder!\n" + e.toString());
+            }
+            mCar.setImageFilename(filename);
+            updateImage();
+        }
+    }
+
 }

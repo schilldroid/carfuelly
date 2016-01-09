@@ -72,9 +72,15 @@ public class DataManager {
         return mInstance;
     }
 
-    public void addCar(Car c) {
+    public Car createNewCar() {
+        Car c = new Car();
         c.setID(ID_COUNT++);
         mCars.put(c.getID(), c);
+        return c;
+    }
+
+    public void deleteCar(int id) {
+        mCars.remove(id);
     }
 
     public Car getCarByID(int id) {

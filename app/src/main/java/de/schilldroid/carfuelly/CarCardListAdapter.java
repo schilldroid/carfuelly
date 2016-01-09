@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ import de.schilldroid.carfuelly.Activities.CarDetailsActivity;
 import de.schilldroid.carfuelly.Fragments.CarsFragment;
 import de.schilldroid.carfuelly.Utils.Consts;
 import de.schilldroid.carfuelly.Utils.Logger;
+import de.schilldroid.carfuelly.Utils.Tools;
 
 /**
  * Created by Simon on 29.12.2015.
@@ -29,6 +32,7 @@ public class CarCardListAdapter extends BaseAdapter {
     private Carfuelly mAppContext;
     private LayoutInflater mInflater;
     private ArrayList<Car> mCars;
+    private String mClassName = "[CarCardListAdapter]";
 
 
     public CarCardListAdapter(CarsFragment fragment) {
@@ -96,6 +100,7 @@ public class CarCardListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int carID = (int) v.getTag();
                 Intent intent = new Intent(mAppContext, CarDetailsActivity.class);
+                // tell the activity to start in MODIFY mode and modify the car identified by carID
                 intent.putExtra(Consts.CarDetails.CONTEXT_KEY, Consts.CarDetails.CONTEXT_MODIFY);
                 intent.putExtra(Consts.CarDetails.PARAM_CAR_ID, carID);
                 // to get result, onActivityResult ist called on finishing CarDetailsActivity
@@ -104,7 +109,6 @@ public class CarCardListAdapter extends BaseAdapter {
         });
 
         Car c = mCars.get(position);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM.yyyy");
 
         // initialize components of view
         TextView name = (TextView) v.findViewById(R.id.car_card_name);
@@ -117,16 +121,26 @@ public class CarCardListAdapter extends BaseAdapter {
         model.setText(c.getModel());
 
         TextView dateOfFirstReg = (TextView) v.findViewById(R.id.car_card_date_of_first_registration);
-        dateOfFirstReg.setText(sdf.format(c.getFirstRegistration()));
+        dateOfFirstReg.setText(c.getStrFirstRegistration());
 
         TextView performance = (TextView) v.findViewById(R.id.car_card_performance);
-        performance.setText(""+ c.getPower());
+        performance.setText(c.getStrPower());
 
         TextView engine = (TextView) v.findViewById(R.id.car_card_engine);
-        engine.setText(""+ c.getEngine());
+        engine.setText(c.getStrEngine());
 
         TextView registration = (TextView) v.findViewById(R.id.car_card_registration);
         registration.setText(c.getLicensePlate());
+
+        ImageView image = (ImageView) v.findViewById(R.id.car_card_image);
+        File src = null;
+        try {
+            // build file path
+            src = new File(Tools.getExternalStorageImagesDirectory(), c.getImageFilename());
+        } catch (Exception e) {
+            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "exception while trying to open car image file");
+        }
+        Tools.updateImage(image, src);
 
         return v;
     }

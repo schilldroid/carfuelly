@@ -46,12 +46,12 @@ public class Carfuelly extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carfuelly);
+        setContentView(R.layout.carfuelly_activity_layout);
 
         // init static instance, to access main class from any point of code
         mMainActivity = this;
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.car_details_toolbar);
         setSupportActionBar(mToolbar);
 
         // initialize FAB
