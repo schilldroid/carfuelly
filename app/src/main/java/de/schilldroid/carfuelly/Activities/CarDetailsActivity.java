@@ -2,18 +2,14 @@ package de.schilldroid.carfuelly.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,14 +20,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 
+import de.schilldroid.carfuelly.BitmapReceiver;
+import de.schilldroid.carfuelly.LoadDownsampledBitmapWorkerTask;
 import de.schilldroid.carfuelly.Car;
 import de.schilldroid.carfuelly.CarDetailTankListAdapter;
 import de.schilldroid.carfuelly.CarDetailsDatePickerFragment;
 import de.schilldroid.carfuelly.DataManager;
 import de.schilldroid.carfuelly.R;
+import de.schilldroid.carfuelly.SaveBitmapWorkerTask;
 import de.schilldroid.carfuelly.Utils.Consts;
 import de.schilldroid.carfuelly.Utils.Logger;
 import de.schilldroid.carfuelly.Utils.Tools;
@@ -39,7 +37,7 @@ import de.schilldroid.carfuelly.Utils.Tools;
 /**
  * Created by Simon on 30.12.2015.
  */
-public class CarDetailsActivity extends AppCompatActivity implements CarDetailsDatePickerFragment.OnDateAppliedListener {
+public class CarDetailsActivity extends AppCompatActivity implements CarDetailsDatePickerFragment.OnDateAppliedListener, BitmapReceiver {
 
     private String mClassName = "[CarDetailsActivity]";
 
@@ -72,6 +70,10 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     private int mRequestedCarID;
 
     private String mTitle;
+    private Uri mChosenCarImageUri;
+    private Bitmap mDownSampledBitmap;
+
+    private File mCarImageFile;
 
 
     @Override
@@ -79,6 +81,8 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_details_activity_layout);
 
+        mChosenCarImageUri = null;
+        mDownSampledBitmap = null;
         initComponents();
 
         Intent intent = getIntent();
@@ -93,10 +97,9 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 mRequestedCarID = intent.getIntExtra(Consts.CarDetails.PARAM_CAR_ID, -1);
                 if(mRequestedCarID >= 0) {
                     mCar = DataManager.getInstance().getCarByID(mRequestedCarID);
-                    setFieldValues();
                 }
                 else {
-                    Logger.log(Consts.Logger.LOG_ERROR, "[CarDetailsActivity]", "unable to load car details for ID = -1");
+                    Logger.log(Consts.Logger.LOG_ERROR, mClassName, "unable to load car details for ID = -1");
                     mCar = DataManager.getInstance().createNewCar();
                 }
                 break;
@@ -104,6 +107,9 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 mTitle = "Car Details";
                 break;
         }
+
+        mCarImageFile = new File(Tools.getExternalStorageImagesDirectory().getAbsolutePath(), Consts.General.CAR_IMAGES_NAME_PREFIX + mCar.getID() + Consts.General.IMAGES_SUFFIX);
+        setFieldValues();
     }
 
 
@@ -204,22 +210,8 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         mViewConsumptionUrban.setText(mCar.getStrConsumptionUrban());
         mViewConsumptionExtraUrban.setText(mCar.getStrConsumptionExtraUrban());
         mViewConsumptionCombined.setText(mCar.getStrConsumptionCombined());
-        updateImage();
+        showToolbarImage();
     }
-
-
-    private void updateImage() {
-        File src = null;
-        try {
-            // build file path
-            src = new File(Tools.getExternalStorageImagesDirectory(), mCar.getImageFilename());
-        } catch (Exception e) {
-            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "exception while trying to open car image file");
-        }
-        Tools.updateImage(mToolbarImage, src);
-    }
-
-
 
 
 
@@ -290,7 +282,9 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
                 }
                 return dataVerified;
             case android.R.id.home:
-                DataManager.getInstance().deleteCar(mCar.getID());
+                if(mContext == Consts.CarDetails.CONTEXT_CREATE) {
+                    DataManager.getInstance().deleteCar(mCar.getID());
+                }
                 setResult(Consts.CarDetails.CAR_DETAILS_CANCELED);
                 finish();
                 return true;
@@ -334,7 +328,22 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
         // hey car, i have some data for you. The thing is that the data are given as Strings, but im sure you can handle that ;)
         mCar.setParams(name, desc, manu, model, firstReg, power, engine, config, purchaseDate, price, plate, conUrban, conExtraUrban, conCombined);
 
+        if(mChosenCarImageUri != null) {
+            applyCarImage();
+        }
+
         return true;
+    }
+
+    private void applyCarImage() {
+        Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "applying car image for car: " + mCar.toString());
+
+        Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "target filepath: " + mCarImageFile.getAbsolutePath());
+
+        SaveBitmapWorkerTask task = new SaveBitmapWorkerTask(this, mDownSampledBitmap, mCarImageFile.getAbsolutePath());
+        task.execute();
+
+        mCar.setImageFilename(mCarImageFile.getName());
     }
 
 
@@ -344,20 +353,35 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
 
         if (requestCode == Consts.CarDetails.REQUEST_PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
-            Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "data received from gallery picker: "+ uri);
-            String filename = "car_"+ mCar.getID();
-            File destFile = new File(Tools.getExternalStorageImagesDirectory(), filename);
-            Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "the destination filepath is: " + destFile.getAbsolutePath());
+            mChosenCarImageUri = data.getData();
+            Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "data received from gallery picker: " + mChosenCarImageUri);
 
-            try {
-                Tools.copyFileFromUri(this, uri, destFile);
-            } catch (IOException e) {
-                Logger.log(Consts.Logger.LOG_ERROR, mClassName, "could not copy image to app-folder!\n" + e.toString());
-            }
-            mCar.setImageFilename(filename);
-            updateImage();
+            showToolbarImage();
         }
     }
 
+    private void showToolbarImage() {
+
+
+        if(mChosenCarImageUri != null) {
+            LoadDownsampledBitmapWorkerTask task = new LoadDownsampledBitmapWorkerTask(this, mToolbarImage, mChosenCarImageUri, this);
+            task.execute();
+        }
+        else if(mCar.getImageFilename() != null) {
+            LoadDownsampledBitmapWorkerTask task = new LoadDownsampledBitmapWorkerTask(this, mToolbarImage, mCarImageFile.getAbsolutePath(), this);
+            task.execute();
+        }
+        else {
+            Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "neither uri nor filename set, displaying default image!");
+            mToolbarImage.setImageResource(R.drawable.cockpit_def);
+        }
+
+
+    }
+
+
+    @Override
+    public void onReceiveBitmap(Bitmap bitmap) {
+        mDownSampledBitmap = bitmap;
+    }
 }

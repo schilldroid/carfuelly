@@ -111,7 +111,11 @@ public class Carfuelly extends AppCompatActivity implements NavigationView.OnNav
         mContentFragments.put(R.id.nav_drawer_menu_Graphs, new DummyFragment());
         mContentFragments.put(R.id.nav_drawer_menu_stations, new DummyFragment());
         mContentFragments.put(R.id.nav_drawer_menu_types, new DummyFragment());
+    }
 
+
+    public BaseFragment getFragment(int fragmentID) {
+        return mContentFragments.get(fragmentID);
     }
 
 

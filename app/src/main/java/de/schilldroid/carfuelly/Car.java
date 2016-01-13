@@ -40,7 +40,7 @@ public class Car {
 
 
     public Car() {
-        setID(-1);
+        this(-1, "", "", "", "", null, -1, -1, "", null, -1, "", -1, -1, -1);
     }
 
     public Car(String name, String desc, String manufacturer, String model, Date firstReg,

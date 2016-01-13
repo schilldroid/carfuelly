@@ -10,6 +10,9 @@ public final class Consts {
     public static class General {
         public static final String EXTERNAL_STORAGE_DIRECTORY_NAME = "carfuelly";
         public static final String IMAGES_DIRECTORY_NAME = "images";
+        public static final String CAR_IMAGES_NAME_PREFIX = "car_";
+        public static final String IMAGES_SUFFIX = ".png";
+        public static final String MEDIA_DIRECTORY_NAME = "media";
     }
 
 
@@ -59,6 +62,9 @@ public final class Consts {
         public static final int CAR_DETAILS_CANCELED = 1;
 
         public static final int REQUEST_PICK_IMAGE = 0;
+
+        public static final int TARGET_IMAGE_WIDTH = 1024;
+        public static final int TARGET_IMAGE_HEIGHT = 1024;
     }
 
 }

@@ -2,6 +2,8 @@ package de.schilldroid.carfuelly;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -133,14 +135,24 @@ public class CarCardListAdapter extends BaseAdapter {
         registration.setText(c.getLicensePlate());
 
         ImageView image = (ImageView) v.findViewById(R.id.car_card_image);
-        File src = null;
-        try {
-            // build file path
-            src = new File(Tools.getExternalStorageImagesDirectory(), c.getImageFilename());
-        } catch (Exception e) {
-            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "exception while trying to open car image file");
+
+        String imageFilename = c.getImageFilename();
+        if(imageFilename != null) {
+            File src = null;
+            try {
+                // build file path
+                src = new File(Tools.getExternalStorageImagesDirectory(), c.getImageFilename());
+                LoadBitmapWorkerTask task = new LoadBitmapWorkerTask(image, src.getAbsolutePath());
+                task.execute();
+            } catch (Exception e) {
+                Logger.log(Consts.Logger.LOG_ERROR, mClassName, "exception while trying to open car image file '"+ src.getAbsolutePath() +"'! displaying default image instead");
+                image.setImageResource(R.drawable.cockpit_def);
+            }
         }
-        Tools.updateImage(image, src);
+        else {
+            Logger.log(Consts.Logger.LOG_INFO, mClassName, "no image filename set for car "+ c.toString() +". displaying default image instead");
+        }
+
 
         return v;
     }
