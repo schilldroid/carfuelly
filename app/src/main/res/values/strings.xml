@@ -34,7 +34,7 @@
     <string name="car_details_hint_model">model</string>
     <string name="car_details_hint_first_registration">1st reg.</string>
     <string name="car_details_hint_power">power</string>
-    <string name="car_details_hint_capacity">capacity</string>
+    <string name="car_details_hint_engine">engine</string>
     <string name="car_details_hint_configuration">configuration line</string>
     <string name="car_details_hint_purchase_date">purchase date</string>
     <string name="car_details_hint_price">price</string>

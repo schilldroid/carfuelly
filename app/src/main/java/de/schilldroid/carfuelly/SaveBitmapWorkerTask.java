@@ -21,10 +21,8 @@ import de.schilldroid.carfuelly.Utils.Logger;
  */
 public class SaveBitmapWorkerTask extends AsyncTask<Void, Void, Void> {
 
-    private final int MODE_SOURCE_URI = 0;
-    private final int MODE_SOURCE_PATH = 1;
 
-    private String mClassName = "SaveBitmapWorkerTask";
+    private final String mClassName = "SaveBitmapWorkerTask";
 
     private String mFilePath;
     private Bitmap mBitmap;
@@ -40,12 +38,15 @@ public class SaveBitmapWorkerTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+
         OutputStream outStream = null;
         try {
             outStream = new FileOutputStream(mFilePath);
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "start writing bitmap to file '" + mFilePath + "' ...");
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outStream);
+            Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "finish writing bitmap to file '" + mFilePath + "'!!!");
         } catch (Exception e) {
-            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "cannot close output stream\n"+ e.getStackTrace());
+            Logger.log(Consts.Logger.LOG_ERROR, mClassName, "cannot write bitmap to file\n"+ e.getStackTrace());
         }
 
         try {
@@ -56,6 +57,7 @@ public class SaveBitmapWorkerTask extends AsyncTask<Void, Void, Void> {
             Logger.log(Consts.Logger.LOG_ERROR, mClassName, "cannot close output stream\n"+ e.getStackTrace());
             e.printStackTrace();
         }
+
         return null;
     }
 }

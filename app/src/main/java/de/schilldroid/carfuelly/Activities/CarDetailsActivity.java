@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Calendar;
 
 import de.schilldroid.carfuelly.BitmapReceiver;
+import de.schilldroid.carfuelly.LoadBitmapWorkerTask;
 import de.schilldroid.carfuelly.LoadDownsampledBitmapWorkerTask;
 import de.schilldroid.carfuelly.Car;
 import de.schilldroid.carfuelly.CarDetailTankListAdapter;
@@ -340,6 +341,7 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
 
         Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "target filepath: " + mCarImageFile.getAbsolutePath());
 
+        // create new bitmapWorker to save the image, that the user has chosen, in an appfolder
         SaveBitmapWorkerTask task = new SaveBitmapWorkerTask(this, mDownSampledBitmap, mCarImageFile.getAbsolutePath());
         task.execute();
 
@@ -351,11 +353,14 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // if the user has picked an image
         if (requestCode == Consts.CarDetails.REQUEST_PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
+            // query the URI of that image
             mChosenCarImageUri = data.getData();
             Logger.log(Consts.Logger.LOG_DEBUG, "[CarDetailsActivity]", "data received from gallery picker: " + mChosenCarImageUri);
 
+            // and show that image
             showToolbarImage();
         }
     }
@@ -363,13 +368,18 @@ public class CarDetailsActivity extends AppCompatActivity implements CarDetailsD
     private void showToolbarImage() {
 
 
+        // if an URI is set ...
         if(mChosenCarImageUri != null) {
+            // start new bitmapWorker to load a downsampled version of that image into the imageview
             LoadDownsampledBitmapWorkerTask task = new LoadDownsampledBitmapWorkerTask(this, mToolbarImage, mChosenCarImageUri, this);
             task.execute();
         }
+        // else if there is already an image assigned to this car ...
         else if(mCar.getImageFilename() != null) {
-            LoadDownsampledBitmapWorkerTask task = new LoadDownsampledBitmapWorkerTask(this, mToolbarImage, mCarImageFile.getAbsolutePath(), this);
-            task.execute();
+            // start new bitmapWorker to load the assigned image from app folder
+            //LoadBitmapWorkerTask task = new LoadBitmapWorkerTask(mToolbarImage, mCarImageFile.getAbsolutePath());
+            //task.execute();
+            Tools.loadCarImageFromFile(mToolbarImage, mCar, null);
         }
         else {
             Logger.log(Consts.Logger.LOG_DEBUG, mClassName, "neither uri nor filename set, displaying default image!");

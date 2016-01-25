@@ -167,7 +167,7 @@ public class Car {
         if(mPower < 0) {
             return "";
         }
-        return "" + mPower;
+        return String.valueOf(mPower);
     }
     public void setPower(int power) {
         mPower = power;
@@ -188,14 +188,14 @@ public class Car {
         if(mEngine < 0) {
             return "";
         }
-        return ""+ mEngine;
+        return String.valueOf(mEngine);
     }
     public void setEngine(double engine) {
         mEngine = engine;
     }
     public void setEngine(String engine) {
         try {
-            mEngine = Integer.parseInt(engine);
+            mEngine = Double.parseDouble(engine);
         } catch (NumberFormatException e) {
             mEngine = -1;
         }
@@ -236,7 +236,7 @@ public class Car {
         if(mPrice < 0) {
             return "";
         }
-        return ""+ mPrice;
+        return String.valueOf(mPrice);
     }
     public void setPrice(int price) {
         mPrice = price;
@@ -265,7 +265,7 @@ public class Car {
         if(mConsumptionUrban < 0) {
             return "";
         }
-        return ""+ mConsumptionUrban;
+        return String.valueOf(mConsumptionUrban);
     }
     public void setConsumptionUrban(double consumptionUrban) {
         mConsumptionUrban = consumptionUrban;
@@ -286,7 +286,7 @@ public class Car {
         if(mConsumptionExtraUrban < 0) {
             return "";
         }
-        return ""+ mConsumptionExtraUrban;
+        return String.valueOf(mConsumptionExtraUrban);
     }
     public void setConsumptionExtraUrban(double consumptionExtraUrban) {
         mConsumptionExtraUrban = consumptionExtraUrban;
@@ -306,7 +306,7 @@ public class Car {
         if(mConsumptionCombined < 0) {
             return "";
         }
-        return ""+ mConsumptionCombined;
+        return String.valueOf(mConsumptionCombined);
     }
     public void setConsumptionCombined(double consumptionCombined) {
         mConsumptionCombined = consumptionCombined;

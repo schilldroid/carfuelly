@@ -11,7 +11,7 @@ public final class Consts {
         public static final String EXTERNAL_STORAGE_DIRECTORY_NAME = "carfuelly";
         public static final String IMAGES_DIRECTORY_NAME = "images";
         public static final String CAR_IMAGES_NAME_PREFIX = "car_";
-        public static final String IMAGES_SUFFIX = ".png";
+        public static final String IMAGES_SUFFIX = ".jpg";
         public static final String MEDIA_DIRECTORY_NAME = "media";
     }
 

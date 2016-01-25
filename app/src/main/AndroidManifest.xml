@@ -18,7 +18,8 @@
         </activity>
 
         <activity android:name=".Activities.CarDetailsActivity"
-            android:label="Car Details" />
+            android:label="Car Details"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
     </application>
 

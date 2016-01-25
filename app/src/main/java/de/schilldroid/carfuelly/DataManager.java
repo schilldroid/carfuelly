@@ -63,6 +63,28 @@ public class DataManager {
         c = new Car(ID_COUNT++, "Traum", "mein Traumwagen", "Porsche", "Panamera", date, 310, 2.4, "super ultra comfort sports line", purchase, 100000, "POR SCHE 123", 12.0, 10.0, 11.0);
         mCars.put(c.getID(), c);
 
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date = cal.getTime();
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+        purchase = cal.getTime();
+        c = new Car(ID_COUNT++, "blaa", "mein Traumwagen", "Porsche", "Panamera", date, 310, 2.4, "super ultra comfort sports line", purchase, 100000, "POR SCHE 123", 12.0, 10.0, 11.0);
+        mCars.put(c.getID(), c);
+
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date = cal.getTime();
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+        purchase = cal.getTime();
+        c = new Car(ID_COUNT++, "foo", "mein Traumwagen", "Porsche", "Panamera", date, 310, 2.4, "super ultra comfort sports line", purchase, 100000, "POR SCHE 123", 12.0, 10.0, 11.0);
+        mCars.put(c.getID(), c);
+
     }
 
 
@@ -78,6 +100,8 @@ public class DataManager {
         mCars.put(c.getID(), c);
         return c;
     }
+
+
 
     public void deleteCar(int id) {
         mCars.remove(id);
